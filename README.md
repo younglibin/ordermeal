@@ -7,8 +7,8 @@ order  meal   project
 UTF-8
 
 开发环境搭建：
-1.环境：meEclipse6.5 及以上兼容版
-2.JDK：jdk1.6.0_22  及以上兼容版
+1.环境：meEclipse6.5 及以上兼容版 
+2.JDK：jdk1.6.0_22  及以上兼容版 
 3.项目编码：UTF-8 （右键：properties --> resource -->text file  encode）
 4.项目编译JVM：6.0（properties -->java Compiler -- JDK Compliance -->COmpiler compliance lever --> 6.0）
 5.服务器：tomcat
