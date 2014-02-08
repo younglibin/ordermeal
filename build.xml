@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="execut" basedir=".">
+	<description>order meal  system build  script </description>
+	<property name="build.dir" location="${basedir}/build"/>
+	<property name="build.lib.dir" location="${build.dir}/lib"/>
+	<property name="build.src.dir" location="${build.dir}/src"/>
+	<property name="build.web..dir" location="${build.dir}/web"/>	
+	<property name="build.classes.dir" location="${build.dir}/classes"/>
+	
+	<property name="source.lib.dir" location="${basedir}/WebRoot/WEB-INF/lib"></property>
+	<property name="source.src.dir" location="${basedir}/src"></property>
+	<property name="source.web.dir" location="${basedir}/web"></property>
+	<property name="source.test.dir" location="${basedir}/test"></property>
+	<property name="source.res.dir" location="${basedir}/res/dev"></property>
+	<property name="project.docroot.dir" value="${basedir}/WebRoot" />	
+	<property name="version" value="dev-1.0.1" />
+	<tstamp>
+		<format  property="release.time" pattern="yyyyMMdd" />
+	</tstamp>
+	
+	<path id="project.class.path">
+		<fileset dir="${source.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+		
+	<!--  初始化 ant使用的 文件目录  -->
+		
+	<target name="init" depends="clear">		
+		<echo>初始化文件目录......</echo>
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.lib.dir}"/>
+	 	<mkdir dir="${build.src.dir}"/>
+		<mkdir dir="${build.classes.dir}"/>
+	</target>
+	<!--  删除已经存在的目录文件 -->
+	<target name="clear">
+		<echo>清除不使用的文件....</echo>
+		<delete dir="${build.lib.dir}"/>
+		<delete dir="${build.classes.dir}"/>
+		<delete dir="${build.src.dir}"/>
+		<delete>
+			<fileset dir="${build.dir}">
+					<exclude  name="*-${release.time}.war" />
+					<include  name="*-${release.time}.jar" />
+			</fileset>
+		</delete>
+	</target>
+	<!-- 清除所有打包生成的文件-->
+	<target name="clearAll">
+			<echo>清除不使用的文件....</echo>
+			<delete dir="${build.lib.dir}"/>
+			<delete dir="${build.classes.dir}"/>
+			<delete dir="${build.src.dir}"/>
+			<delete>
+				<fileset dir="${build.dir}">
+						<include  name="*.war" />
+						<include  name="*.jar" />
+				</fileset>
+			</delete>
+		</target>
+	
+<!-- 拷贝 java文件  -->
+	<target name="copy.src"  depends="copy.lib">
+			<copy    todir="${build.src.dir}">
+					<fileset dir="${source.src.dir}">
+						    <include name="**/*.java" />
+						    <include name="**/*test*.java"/>
+					</fileset>
+					<fileset dir="${source.web.dir}">
+							<include name="**/*.java" />
+							<include name="**/*test*.java"/>
+					</fileset>
+					<fileset dir="${source.test.dir}">
+							<include name="**/*.java" />
+							<include name="*.java" />
+					</fileset>
+			</copy>
+	</target>
+	<!--拷贝jar包  -->
+	<target name="copy.lib"  depends="init">
+				<copy    todir="${build.lib.dir}">
+						<fileset dir="${source.lib.dir}">
+							    <include name="**/*.jar" />
+						</fileset>
+				</copy>
+	</target>
+	<!--  执行编译  -->
+		<target name="compile"   depends="copy.src" >
+			<echo>执行编译</echo>
+			<javac   encoding="UTF-8" srcdir="${build.src.dir}" destdir="${build.classes.dir}" classpathref="project.class.path" debug="on" target="1.6" source="1.6" nowarn="on" deprecation="on" optimize="off">
+					<include name="**/*.java" />
+			</javac>
+		</target>
+	
+			<target name="jar" depends="compile">
+					<echo>1.打代码jar包</echo>
+					<jar  basedir="${build.classes.dir}" jarfile="${build.dir}/om-${version}-${release.time}.jar">
+							<include  name="**/om/**"/>
+					</jar>
+					<jar  basedir="${source.res.dir}" jarfile="${build.dir}/om-res-${version}-${release.time}.jar"  includes="**/**" >
+					</jar>
+			</target>
+	
+			<target name="war" depends="jar">
+				<echo>打成war包</echo>
+				<war  warfile="${build.dir}/om-${version}-${release.time}.war" webxml="${project.docroot.dir}/WEB-INF/web.xml">
+					<include  name="**/om/**" />
+					<lib dir="${build.lib.dir}/struts">
+								<include   name="*.jar"/>
+					</lib>
+					<lib dir="${build.lib.dir}/spring">
+								<include   name="*.jar"/>
+					</lib>
+					<lib dir="${build.lib.dir}/ibatis">
+								<include   name="*.jar"/>
+					</lib>
+					<lib dir="${build.lib.dir}/mysql">
+								<include   name="*.jar"/>
+					</lib>
+					<lib dir="${build.lib.dir}/log4j">
+								<include   name="*.jar"/>
+					</lib>		
+					<lib dir="${build.lib.dir}/om">
+							<include   name="*.jar"/>
+					</lib>
+					<lib dir="${build.dir}">
+						<include   name="**-${release.time}.jar"/>
+					</lib>
+					<fileset dir="${project.docroot.dir}">
+						<exclude name="WEB-INF/web.xml" />
+						<exclude name="WEB-INF/classes/**" />
+						<exclude name="WEB-INF/lib/**" />
+						<include name="**/test/*.*" />
+						<include name="**/*.*" />
+					</fileset>
+				</war>
+			</target>
+	<!-- 文件执行入库口 -->
+	<target name="execut"  depends="war">
+		<echo>执行 结束 ........</echo>
+	</target>
+
+
+</project>
