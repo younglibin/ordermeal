@@ -36,5 +36,5 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts/struts2-core-2.3.4.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts/struts2-spring-plugin-2.3.4.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts/xwork-core-2.3.4.1.jar"/>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
