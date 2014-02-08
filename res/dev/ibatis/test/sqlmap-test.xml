@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+      "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--这是POJO映射文件的根元素-->
+<sqlMap namespace="test">
+	<typeAlias alias="myTestPo" type="com.om.po.MyTestPo"/>
+	<select id="select_test_count"   resultClass="java.lang.Integer">
+		select count(*) as totle from city
+	</select>
+	<select id="select_test_list"  resultClass="myTestPo">
+		select id  ,name from city
+	</select>
+	<!-- 
+	<select id="get_student_byId" parameterClass="java.lang.Integer"
+		resultClass="myTestPo">
+		<![CDATA[select id,firstname,lastname from student where id=#id#]]>
+	</select>
+	<insert id="insert_student" parameterClass="myTestPo">
+		insert into student(firstname,lastname)
+		values(#firstname#,#lastname#)
+	</insert>
+	 -->
+</sqlMap>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	
+	<!--  为了便于项目文件管理将spring配置文件放在classes目录下的spring中，在这里指定文件路径-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath*:spring/applicationContext.xml
+		</param-value>
+	</context-param>
+	
+	<!-- 设置 项目编码 -->
+	<filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>com.om.common.filter.SetCharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- set  struts2   config  （添加struts2支持） -->
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!--  添加spring支持 -->
+
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	
+	
+	<!-- 分页标签 -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/page-tag</taglib-uri>
+			<taglib-location>/WEB-INF/tld/page-tag.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>/task-tag</taglib-uri>
+			<taglib-location>/WEB-INF/tld/task-tag.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	
+	
+	<welcome-file-list>
+    	<welcome-file>index.jsp</welcome-file>
+  	</welcome-file-list>
+</web-app>

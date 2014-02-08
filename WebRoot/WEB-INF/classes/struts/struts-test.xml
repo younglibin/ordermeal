@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="home" extends="struts-default" namespace="/home">
+		<action name="strutsTest" class="testStrutsAction" method="testMethod">
+			<result name="success">/page/test/testAction.jsp</result>
+		</action>
+		<action name="pageAction" class="pageAction" method="querPage">
+			<result name="success">/page/test/testPage.jsp</result>
+		</action>
+	</package>
+</struts>
